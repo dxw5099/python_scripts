@@ -3,7 +3,7 @@
 ######Author: Di Wu
 
 
-#!/usr/bin/python3
+#!/usr/bin/python
 import csv
 import pandas as pd
 import os
@@ -51,12 +51,11 @@ else:
     #df = df_data.replace(' ', '', regex=True)  # delete space
     #df = df.replace('[^a-zA-Z0-9_-]', '_', regex=True)  # replace special characters if not "-", "_" or " "
     df = df_data.replace({' ': '', '[^a-zA-Z0-9_-]': '_'}, regex=True) # same as previous two lines
-    #df.columns = df.columns.str.replace(' ', '', regex=True) #delete space from column names
-    #df.columns = df.columns.str.replace('[^a-zA-Z0-9_-]', '_', regex=True)  # replace wierd symbols from columne names
-    df.columns = df.columns.str.replace({' ': '','[^a-zA-Z0-9_-]': '_'}, regex=True)
+    df.columns = df.columns.str.replace(' ', '', regex=True) #delete space from column names
+    df.columns = df.columns.str.replace('[^a-zA-Z0-9_-]', '_', regex=True)  # replace wierd symbols from columne names
     df.columns = df.columns.str.capitalize() # Capitalize first letter for column names
     #print(df.Index.nunique())
-    if project_num == df.Index.nunique():
+    if project_num == df.iloc[:,-1].nunique(): #df.iloc[:,-1] get the last column
         # print(df)
         # Find & select rows based on a two column names,
         # Select all duplicate rows based on multiple column names in list
@@ -70,8 +69,8 @@ else:
             else:
                 df_header.to_csv("header.csv", index=False, header=False)
                 df.to_csv("fixed.csv", index=False)
-                os.system("cat header.csv fixed.csv > Samplesheet.csv")
-                print("Samplesheet looks good. Please use 'Samplesheet.csv' for demultiplexing!")
+                os.system("cat header.csv fixed.csv > %s" % sys.argv[1])
+                print("Samplesheet looks good. Please download and use %s for demultiplexing!" % sys.argv[1])
         else:
             duplicateRowsDF = df[df.duplicated(['Index'], False)]
             if duplicateRowsDF.shape[0] > 0:
@@ -80,28 +79,10 @@ else:
             else:
                 df_header.to_csv("header.csv", index=False, header=False)
                 df.to_csv("fixed.csv", index=False)
-                os.system("cat header.csv fixed.csv > Samplesheet.csv")
-                print("Samplesheet looks good. Please use 'Samplesheet.csv' for demultiplexing!")
+                os.system("cat header.csv fixed.csv > %s" % sys.argv[1])
+                print("Samplesheet looks good. Please download and use %s for demultiplexing!" % sys.argv[1])
     else:
         print "The number of project in the samplesheet is not equal to your input"
         print "Your input is: ", project_num
-        print df.Index.nunique(), " is detected from samplesheet!"
-
-#    else:
-#        break
-#print(row_num)
-#print(total_row)
-
-
-
-#    for line_num, content in enumerate(readCSV):
-#        #print(row)
-#        row_num += 1
-#        if content[0] == search_phrase:
-#            #print(content)
-#            print(row_num)
-#            break
-#        else:
-#            print("You need to add '[Data]' row right above 'Lane, Sample_ID, Sample_Name, Index, Project ...'! No blank cells are allowed to the left of '[Data]'! ")
-        #print(row[0],row[1],row[2],)
+        print "However, %d is detected from samplesheet!" % df.iloc[:,-1].nunique()
 
