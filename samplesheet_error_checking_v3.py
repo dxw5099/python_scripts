@@ -52,7 +52,7 @@ else:
         # replace special characters by "_"
     #df = df_data.replace(' ', '', regex=True)  # delete space
     #df = df.replace('[^a-zA-Z0-9_-]', '_', regex=True)  # replace special characters if not "-", "_" or " "
-    df = df_data.replace({' ': '', '[+]': '-P-', '[^a-zA-Z0-9_-]': '_'}, regex=True) # same as previous two lines
+    df = df_data.replace({' ': '', '[+]': '-P-', '[^a-zA-Z0-9_-]': '-'}, regex=True) # same as previous two lines
     #df = df_data.replace({'': 'P', '[^a-zA-Z0-9_-]': '_'}, regex=True)
     df.columns = df.columns.str.replace(' ', '', regex=True) #delete space from column names
     df.columns = df.columns.str.replace('[^a-zA-Z0-9_-]', '_', regex=True)  # replace wierd symbols from columne names
