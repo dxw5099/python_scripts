@@ -5,11 +5,11 @@ $ python Samplesheet_error_checking_v3.py samplesheet.csv
 The first argument is to tell what samplesheet to check.  
   
 
-Samplesheet_error_checking_v2.py detects:
+Samplesheet_error_checking_v3.py detects:
   if duplicated row by 'Lane', 'Index', 'Index2' or by 'Index', 'Index2' 
   delete all space
   replace "+" by "-P-"
-  replace special charaters by "-" except "-" and " "
+  replace special charaters by "-" except "_", "-", "+" and " "
   Overwrite input file using corrected file
 
 
